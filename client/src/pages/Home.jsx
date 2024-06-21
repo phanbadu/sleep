@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 export default function Home() {
     const { currentUser } = useSelector((state) => state.user);
     const [users, setUsers] = useState([]);
-    console.log(users);
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -60,7 +59,6 @@ export default function Home() {
                         </div>
                         <div className="h-full x overflow-y-scroll">
                             {users.map((user) => <Users key={user._id} fullName={user.fullName} />)}
-                            
                         </div>
                     </div>
                 </div>

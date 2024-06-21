@@ -3,8 +3,11 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { IoCreateOutline } from 'react-icons/io5';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function CreatePost({ setShowModal }) {
+    const { currentUser } = useSelector((state) => state.user);
+
     const navigate = useNavigate();
     const filePickerRef = useRef();
     const [imageFile, setImageFile] = useState(null);
@@ -39,10 +42,10 @@ export default function CreatePost({ setShowModal }) {
                 <div className="flex gap-3 border-b border-white pb-5">
                     <img
                         className="w-12 h-12 border-2 border-white object-cover rounded-full"
-                        src="https://minhtuanmobile.com/uploads/editer/images/2023/09/spoiler-jujutsu-kaisen-chap-236-7.webp"
+                        src="https://amongus-online.net/Resources/amongus.jpg"
                         alt=""
                     />
-                    <h3 className="text-white">Phan Bá Đủ</h3>
+                    <h3 className="text-white">{currentUser.fullName}</h3>
                 </div>
                 <textarea
                     placeholder="What are you thinking ?"

@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
+import OAuthGoogle from '../components/OAuthGoogle';
 
 export default function SignIn() {
     const { loading, error: errorMessage } = useSelector(state => state.user);
@@ -50,10 +51,7 @@ export default function SignIn() {
                     <div className="flex flex-col gap-10">
                         <h2 className="sm:text-4xl text-center sm:text-left text-white font-semibold">ĐĂNG NHẬP</h2>
                         <div className="flex gap-2 justify-between text-gray-500">
-                            <button className="text-xs p-1 sm:text-base text-white ease-in-out transition hover:border-white flex items-center gap-2 border-2 border-gray-500 rounded-md sm:pt-1 sm:pb-1 sm:pl-5 sm:pr-5 sm:mr-6">
-                                <FcGoogle />
-                                Đăng nhập với Google
-                            </button>
+                            <OAuthGoogle />
                             <button className="text-xs p-1 sm:text-base text-white ease-in-out transition hover:border-white flex items-center gap-2 border-2 border-gray-500 rounded-md sm:pt-1 sm:pb-1 sm:pl-5 sm:pr-5">
                                 <FaFacebook className="text-sky-500" />
                                 Đăng nhập với Facebook
