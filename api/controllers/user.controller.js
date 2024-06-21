@@ -9,3 +9,15 @@ export const signout = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getUsers = async (req, res, next) => {
+    try {
+        const filteredUsers = await User.find({ _id: { $ne: req.user.id } });
+        const filteredUserData = await filteredUsers.map(({ _id, fullName, email, createdAt, updatedAt, __v }) => {
+            return { _id, fullName, email, createdAt, updatedAt, __v };
+        });
+        res.status(200).json(filteredUserData);
+    } catch (error) {
+        next(error);
+    }
+};

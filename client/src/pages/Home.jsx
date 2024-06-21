@@ -1,8 +1,30 @@
+import { useSelector } from 'react-redux';
 import Posts from '../components/Posts.jsx';
 import Users from '../components/Users.jsx';
 import { FaArrowRightLong } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+    const { currentUser } = useSelector((state) => state.user);
+    const [users, setUsers] = useState([]);
+    console.log(users);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const res = await fetch(`/api/user/getusers`);
+                const data = await res.json();
+                if (res.ok) {
+                    setUsers(data);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        if (currentUser) {
+            fetchUsers();
+        }
+    }, [currentUser._id]);
+
     return (
         <div className="ml-[200px] text-white bg-gray-950 pt-10 pb-10">
             <div className="flex w-full justify-center">
@@ -24,10 +46,10 @@ export default function Home() {
                             <div className="flex gap-3 relative before:rounded-full before:opacity-75 transition before:content-[''] before:w-[14px] before:h-[14px] before:animate-ping before:bg-white before:absolute before:top-0 before:left-[36px]">
                                 <img
                                     className="w-12 h-12 border-2 border-white object-cover rounded-full"
-                                    src="https://minhtuanmobile.com/uploads/editer/images/2023/09/spoiler-jujutsu-kaisen-chap-236-7.webp"
+                                    src="https://amongus-online.net/Resources/amongus.jpg"
                                     alt=""
                                 />
-                                <h3 className="text-white/70 text-sm">Phan Bá Đủ</h3>
+                                <h3 className="text-white/70 text-sm">{currentUser.fullName}</h3>
                             </div>
                             <button className="hover:scale-110 transition text-xl text-white">
                                 <FaArrowRightLong />
@@ -37,23 +59,8 @@ export default function Home() {
                             <h1 className="text-xs text-white/40">Những người bạn có thể biết?</h1>
                         </div>
                         <div className="h-full x overflow-y-scroll">
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
-                            <Users />
+                            {users.map((user) => <Users key={user._id} fullName={user.fullName} />)}
+                            
                         </div>
                     </div>
                 </div>
