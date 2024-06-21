@@ -6,15 +6,38 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { IoMdAdd } from 'react-icons/io';
 import CreatePost from './CreatePost';
+import { signoutSuccess } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
 const navigation =
     "bg-gray-950 text-white relative before:rounded-full before:content-[''] before:w-4 before:h-4 before:bg-gray-900 before:absolute before:top-0 before:right-0 before:shadow-[10px_10px_0_0] before:shadow-gray-950 before:translate-y-[-100%] after:content-[''] after:absolute after:w-4 after:h-4 after:rounded-full  after:bottom-0 after:right-0 after:bg-gray-900 after:shadow-[10px_-10px_0_0] after:shadow-gray-950 after:translate-y-[100%]";
 
 export default function Header({ showModal, setShowModal }) {
     const location = useLocation();
+    const dispatch = useDispatch();
 
     const handlePosts = () => {
         setShowModal(true);
     };
+
+    const handleSignout = async () => {
+        try {
+            const res = await fetch("/api/user/signout", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.log(data.message);
+            } else {
+                dispatch(signoutSuccess());
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 
     return (
         <>
@@ -62,13 +85,13 @@ export default function Header({ showModal, setShowModal }) {
                     </li>
                 </ul>
 
-                <Link
-                    to={'/signin'}
+                <button
+                    onClick={handleSignout}
                     className="hover:scale-105 text-gray-950 duration-300 transition-all absolute font-bold w-10/12 bg-white/85 p-2 rounded-l-lg text-sm rounded-lg bottom-10 flex items-center justify-center gap-2"
                 >
                     Đăng xuất
                     <FaSignOutAlt />
-                </Link>
+                </button>
             </div>
             {showModal && <CreatePost setShowModal={setShowModal} />}
         </>
